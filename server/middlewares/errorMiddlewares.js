@@ -1,11 +1,11 @@
 class ErrorHandler extends Error {
     constructor(message, statusCode) {
-        super(message); 
+        super(message);
         this.statusCode = statusCode;
     }
 }
 
-export const errorMiddleware = (err, req, res) => {
+export const errorMiddleware = (err, req, res, next) => {
     err.message = err.message || "internal server error";
     err.statusCode = err.statusCode || 500;
 
@@ -15,7 +15,7 @@ export const errorMiddleware = (err, req, res) => {
         err = new ErrorHandler(message, statusCode);
     }
 
-    if (err.name === "JsonWenTokenError") {
+    if (err.name === "JsonWebTokenError") {
         const message = `Json Web Token is invalid. Try Again`;
         const statusCode = 400;
         err = new ErrorHandler(message, statusCode);
@@ -27,18 +27,18 @@ export const errorMiddleware = (err, req, res) => {
         err = new ErrorHandler(message, statusCode);
     }
 
-    if (err.name === "CasError") {
+    if (err.name === "CastError") {
         const message = `Resource not found. Invalid: ${err.path}`;
         const statusCode = 400;
         err = new ErrorHandler(message, statusCode);
     }
 
-    const errMessage = err.errors ? Object.values(err.errors).map(err => err.message).join(" ") : err.message;
+    const errMessage = err.errors ? Object.values(err.errors).map(e => e.message).join(" ") : err.message;
 
-    return res.status(err.statusCode).json ({
+    return res.status(err.statusCode).json({
         success: false,
-        message: errorMessage,
+        message: errMessage,
     });
+};
 
-} 
 export default ErrorHandler;
