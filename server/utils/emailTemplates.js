@@ -35,3 +35,19 @@ export function generateForgotPasswordEmailTemplate(resetPasswordUrl) {
     </div>
   `;
 }
+
+export function generateDueDateReminderTemplate(bookTitle, dueDate) {
+    return `
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 8px;">
+      <h2 style="text-align: center; color: #4a90e2;">Library Management System</h2>
+      <p style="font-size: 16px; color: #333;">Dear User,</p>
+      <p style="font-size: 16px; color: #333;">
+        This is a reminder that your borrowed book "<strong>${bookTitle}</strong>" is due on <strong>${new Date(dueDate).toDateString()}</strong>.
+      </p>
+      <p style="font-size: 16px; color: #333;">
+        Please return it on time to avoid late fines.
+      </p>
+      <p style="font-size: 14px; color: #777;">Thank you,<br/>Library Management Team</p>
+    </div>
+  `;
+}
