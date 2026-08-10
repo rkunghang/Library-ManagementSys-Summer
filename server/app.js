@@ -9,6 +9,8 @@ import bookRouter from "./routes/bookRoutes.js";
 import borrowRouter from "./routes/borrowRoutes.js";
 import fileUpload from "express-fileupload";
 import userRouter from "./routes/userRoutes.js";
+import authorRouter from "./routes/authorRoutes.js";
+import genreRouter from "./routes/genreRoutes.js";
 
 export const app = express();
 config ({path: "./config/config.env"});
@@ -37,6 +39,8 @@ app.use("/api/v1/borrow", borrowRouter);
 app.use("/api/v1/user", userRouter); // add this line
 
 app.use("/api/v1/auth", authRouter);
+app.use("/api/v1/author", authorRouter);
+app.use("/api/v1/genre", genreRouter);
 
 connectDB();
 
