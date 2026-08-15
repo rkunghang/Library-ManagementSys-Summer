@@ -21,6 +21,11 @@ app.use(cors({
     credentials : true,
 }));
 
+app.use(fileUpload({
+    useTempFiles: true,
+    tempFileDir: "/tmp/",
+}));
+
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded ({extended:true}));
@@ -41,6 +46,7 @@ app.use("/api/v1/user", userRouter); // add this line
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/author", authorRouter);
 app.use("/api/v1/genre", genreRouter);
+
 
 connectDB();
 
