@@ -1,26 +1,18 @@
-import nodemailer from "nodemailer";
+import { Resend } from "resend";
+
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 export const sendEmail = async ({ email, subject, message }) => {
-    const transporter = nodemailer.createTransport({
-        host: process.env.SMTP_HOST,
-        service: process.env.SMTP_SERVICE,
-        port: process.env.SMTP_PORT,
-        secure: true,
-        family: 4, // forces IPv4 — Render's network can't route outbound IPv6
-        auth: {
-            user: process.env.SMTP_MAIL,
-            pass: process.env.SMTP_PASSWORD,
-        },
-    });
-
-    const options = {
-        from: process.env.SMTP_MAIL,
+    const { error } = await resend.emails.send({
+        from: "Library System <onboarding@resend.dev>", // Resend's default test sender — swap for your own verified domain later if you want
         to: email,
         subject,
         html: message,
-    };
+    });
 
-    await transporter.sendMail(options);
+    if (error) {
+        throw new Error(error.message || "Failed to send email");
+    }
 };
 
 export default sendEmail;
